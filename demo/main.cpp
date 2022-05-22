@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 
+
 namespace beast = boost::beast;
 namespace http = beast::http;
 namespace net = boost::asio;
@@ -20,12 +21,11 @@ int main(int argc, char** argv)
     if(argc != 5)
     {
       std::cerr << "Usage: http-client-sync <host> <port> <target> "
-                       "<request>\n"
+                   "<request>\n"
                 << "Example:\n"
                    "localhost 8080 /v1/api/suggest "
                 << R"({"input":"<user_input>"})"
-                   "\n" << argv[1] << " " << argv[2] << " "
-                << argv[3] << " " << argv[4];
+                   "\n" << argv[1] << " " << argv[2] << " " << argv[3] << " " << argv[4];
       return EXIT_FAILURE;
     }
     auto const host = argv[1];
@@ -33,8 +33,7 @@ int main(int argc, char** argv)
     auto const target = argv[3];
     auto const request = argv[4];
     int version = 11;
-    std::cout << host << " " << port << " " << target
-              << " " <<  request << std::endl;
+    std::cout << host << " " << port << " " << target << " " <<  request << std::endl;
     //io_context требуется для всех операций ввода-вывода
     net::io_context ioc;
 
@@ -46,12 +45,11 @@ int main(int argc, char** argv)
 
     // Установка соединение по IP-адресу, который мы получаем из
     // поиска stream.connect(results);
-
+    stream.connect(results);
     http::string_body::value_type body = request;
 
     // Настройка HTTP-запроса на получение сообщения
-    http::request<http::string_body> req{http::verb::post,
-                                         target, version};
+    http::request<http::string_body> req{http::verb::post, target, version};
     req.set(http::field::host, host);
     req.body() = body;
     req.prepare_payload();
